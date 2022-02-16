@@ -5,9 +5,22 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class AppService {
-  constructor(@Inject(ServisesNames.UNIVERSITY) private client: ClientProxy) {}
+  constructor(
+    @Inject(ServisesNames.UNIVERSITY) private clientUniversity: ClientProxy,
+    @Inject(ServisesNames.DOCUMENTS) private clientDocuments: ClientProxy,
+  ) {}
 
-  getHello(): Observable<string> {
-    return this.client.send<string, string>({ cmd: 'get_students' }, 'hello ');
+  public getHello(): Observable<string> {
+    return this.clientUniversity.send<string, string>(
+      { cmd: 'get_students' },
+      'hello ',
+    );
+  }
+
+  public getDocs(): Observable<string> {
+    return this.clientDocuments.send<string, string>(
+      { cmd: 'get_docs' },
+      'dddoooooocccsss ',
+    );
   }
 }
