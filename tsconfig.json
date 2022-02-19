@@ -4,7 +4,8 @@
     "paths": {
       "@constants/*": ["shared/constants/*"],
       "@routes/*": ["shared/routes/*"],
-      "@configs/*": ["shared/configs/*"]
+      "@configs/*": ["shared/configs/*"],
+      "@modules/*": ["modules/*"]
     },
     "module": "commonjs",
     "declaration": true,
