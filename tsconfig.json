@@ -3,8 +3,10 @@
     "baseUrl": "src",
     "paths": {
       "@constants/*": ["shared/constants/*"],
-      "@routes/*": ["shared/routes/*"],
-      "@configs/*": ["shared/configs/*"]
+      "@guards/*": ["shared/guards/*"],
+      "@configs/*": ["shared/configs/*"],
+      "@relations-entities/*": ["shared/relations-entities/*"],
+      "@modules/*": ["modules/*"]
     },
     "module": "commonjs",
     "declaration": true,
