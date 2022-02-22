@@ -2,6 +2,7 @@ import { JwtAuthGuard } from '@guards/jwt-auth.guard';
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 
+@UseGuards(JwtAuthGuard)
 @Controller()
 export class AppController {
   constructor(private appService: AppService) {}
@@ -16,7 +17,7 @@ export class AppController {
     return this.appService.getDocs();
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(RolesGuard)
   @Get('t')
   getTest() {
     return 'works';
