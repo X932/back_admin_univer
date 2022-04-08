@@ -31,7 +31,7 @@ export class AuthService {
     return this.jwtService.verify(token);
   }
 
-  public signUp(user: SignUpUserDto) {
+  public signUp(user: SignUpUserDto): Observable<SignUpResponse> {
     return this.clientUniversity
       .send(MessagePatterns.Auth.signUp, user)
       .pipe<SignUpResponse>(
