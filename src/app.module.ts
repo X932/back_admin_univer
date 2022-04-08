@@ -14,11 +14,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RelationsEntitiesModule } from '@relations-entities/relations-entities.module';
 import { UsersRolesEntity } from '@relations-entities/users-roles.relation';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 
 @Module({
   controllers: [AppController],
-  providers: [AppService, JwtStrategy, AuthService],
+  providers: [JwtStrategy, AuthService],
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     ClientsModule.register([universityServiceConfig, documentsServiceConfig]),

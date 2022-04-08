@@ -1,23 +1,9 @@
-import { JwtAuthGuard } from '@guards/jwt-auth.guard';
-import { Controller, Get, UseGuards } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get } from '@nestjs/common';
 
-@UseGuards(JwtAuthGuard)
 @Controller()
 export class AppController {
-  constructor(private appService: AppService) {}
+  constructor() {}
 
-  @Get('u')
-  getHello() {
-    return this.appService.getHello();
-  }
-
-  @Get('d')
-  getDocs() {
-    return this.appService.getDocs();
-  }
-
-  // @UseGuards(RolesGuard)
   @Get('t')
   getTest() {
     return 'works';

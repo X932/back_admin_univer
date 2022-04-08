@@ -72,6 +72,18 @@
     "webpack-node-externals": "^3.0.0"
   },
   "jest": {
+    "testTimeout": 20000,
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "moduleNameMapper": {
+      "^@configs/(.*)$": "<rootDir>/shared/configs/$1",
+      "^@constants/(.*)$": "<rootDir>/shared/constants/$1",
+      "^@guards/(.*)$": "<rootDir>/shared/guards/$1",
+      "^@relations-entities/(.*)$": "<rootDir>/shared/relations-entities/$1",
+      "^@modules/(.*)$": "<rootDir>/modules/$1"
+    },
     "moduleFileExtensions": [
       "js",
       "json",
