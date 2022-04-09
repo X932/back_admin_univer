@@ -25,3 +25,13 @@ export class SignUpUserDto {
   @IsNotEmpty()
   public groupId: number;
 }
+
+export class AuthorizationDto {
+  @IsString()
+  @IsNotEmpty()
+  public nickname: string;
+
+  @IsString()
+  @IsNotEmpty()
+  public password: string;
+}

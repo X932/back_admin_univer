@@ -1,8 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ClientsModule } from '@nestjs/microservices';
-import { JwtModule } from '@nestjs/jwt';
-import { JWT_KEY } from '@constants/jwt-key';
 import { universityServiceConfig } from '@configs/services';
 import { UsersRolesEntity } from '@relations-entities/users-roles.relation';
 import {
@@ -30,13 +28,7 @@ describe('auth service', () => {
           useValue: mockedUsersRolesRepo,
         },
       ],
-      imports: [
-        ClientsModule.register([universityServiceConfig]),
-        JwtModule.register({
-          secret: JWT_KEY,
-          signOptions: { expiresIn: '1d' },
-        }),
-      ],
+      imports: [ClientsModule.register([universityServiceConfig])],
     }).compile();
 
     authService = await module.get(AuthService);
