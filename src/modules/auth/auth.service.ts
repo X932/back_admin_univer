@@ -7,6 +7,7 @@ import { UsersRolesEntity } from '@relations-entities/users-roles.relation';
 import { catchError, lastValueFrom, Observable } from 'rxjs';
 import { Repository } from 'typeorm';
 import { MessagePatterns } from 'types-univer';
+import { throwBadRequest } from 'shared/errors/throw-bad-request';
 import { AuthorizationDto, SignUpUserDto } from './models/auth.dto';
 import {
   ISuccessSignUp,
@@ -36,12 +37,7 @@ export class AuthService {
   private async getRole(roleId: number): Promise<RolesEntity> {
     const roleEntity = await this.rolesEntity.findOne(roleId);
     if (!roleEntity) {
-      throw new HttpException(
-        {
-          message: ResponseStatuses.BAD_REQUEST.description,
-        },
-        ResponseStatuses.BAD_REQUEST.code,
-      );
+      throwBadRequest(ResponseStatuses.BAD_REQUEST.description);
     }
     return roleEntity;
   }
