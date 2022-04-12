@@ -24,6 +24,10 @@ export class SignUpUserDto {
   @IsNumber()
   @IsNotEmpty()
   public groupId: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  public roleId: number;
 }
 
 export class AuthorizationDto {

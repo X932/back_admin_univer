@@ -1,29 +1,66 @@
 import { ServisesNames } from '@configs/services';
+import { RolesEntity } from '@modules/roles/entities/roles.entity';
 import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { catchError, Observable } from 'rxjs';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UsersRolesEntity } from '@relations-entities/users-roles.relation';
+import { catchError, lastValueFrom, Observable } from 'rxjs';
+import { Repository } from 'typeorm';
 import { MessagePatterns } from 'types-univer';
+import { ResponseStatuses } from './../../shared/constants/response-statuses';
 import { AuthorizationDto, SignUpUserDto } from './models/auth.dto';
-import { SignInResponse, SignUpResponse } from './models/auth.model';
+import {
+  ISuccessSignUp,
+  SignInResponse,
+  SignUpResponse,
+} from './models/auth.model';
 
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectRepository(UsersRolesEntity)
+    private usersRolesEntity: Repository<UsersRolesEntity>,
+    @InjectRepository(RolesEntity)
+    private rolesEntity: Repository<RolesEntity>,
     @Inject(ServisesNames.UNIVERSITY)
     private clientUniversity: ClientProxy,
   ) {}
 
-  public signUp(user: SignUpUserDto): Observable<SignUpResponse> {
-    return this.clientUniversity
-      .send(MessagePatterns.Auth.signUp, user)
-      .pipe<SignUpResponse>(
-        catchError((error) => {
-          throw new HttpException({ message: error.message }, error.code);
-        }),
-      );
+  private async setUserRole(role: RolesEntity, userId: number): Promise<void> {
+    const userRole = new UsersRolesEntity();
+    userRole.userId = userId;
+    userRole.role = role;
+    await this.usersRolesEntity.save(userRole);
   }
 
-  public signIn(userCredentials: AuthorizationDto) {
+  private async getRole(roleId: number): Promise<RolesEntity> {
+    const roleEntity = await this.rolesEntity.findOne(roleId);
+    if (!roleEntity) {
+      throw new HttpException(
+        {
+          message: ResponseStatuses.BAD_REQUEST.description,
+        },
+        ResponseStatuses.BAD_REQUEST.code,
+      );
+    }
+    return roleEntity;
+  }
+
+  public async signUp(user: SignUpUserDto): Promise<{ message: string }> {
+    try {
+      const role: RolesEntity = await this.getRole(user.roleId);
+      let response: ISuccessSignUp = (await lastValueFrom<SignUpResponse>(
+        this.clientUniversity.send(MessagePatterns.Auth.signUp, user),
+      )) as ISuccessSignUp;
+
+      await this.setUserRole(role, response.userId);
+      return { message: response.message };
+    } catch (error) {
+      throw new HttpException({ message: error.message }, error.code);
+    }
+  }
+
+  public signIn(userCredentials: AuthorizationDto): Observable<SignInResponse> {
     return this.clientUniversity
       .send(MessagePatterns.Auth.signIn, userCredentials)
       .pipe<SignInResponse>(

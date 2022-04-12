@@ -1,5 +1,15 @@
 import { HttpException } from '@nestjs/common';
 
-export type SignUpResponse = { message: string } | HttpException;
+export interface ISuccessSignUp {
+  userId: number;
+  message: string;
+}
 
-export type SignInResponse = { message: string; token: string } | HttpException;
+export type SignUpResponse = ISuccessSignUp | HttpException;
+
+interface ISuccessSignIn {
+  message: string;
+  token: string;
+}
+
+export type SignInResponse = ISuccessSignIn | HttpException;

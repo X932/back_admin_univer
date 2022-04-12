@@ -4,6 +4,7 @@ import {
 } from '@configs/services';
 import { AuthService } from '@modules/auth/auth.service';
 import { ModulesModule } from '@modules/modules.module';
+import { RolesEntity } from '@modules/roles/entities/roles.entity';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ClientsModule } from '@nestjs/microservices';
@@ -18,7 +19,7 @@ import { AppController } from './app.controller';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     ClientsModule.register([universityServiceConfig, documentsServiceConfig]),
-    TypeOrmModule.forFeature([UsersRolesEntity]),
+    TypeOrmModule.forFeature([UsersRolesEntity, RolesEntity]),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRES_HOST,
