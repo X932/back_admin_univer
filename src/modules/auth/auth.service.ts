@@ -7,13 +7,13 @@ import { UsersRolesEntity } from '@relations-entities/users-roles.relation';
 import { catchError, lastValueFrom, Observable } from 'rxjs';
 import { Repository } from 'typeorm';
 import { MessagePatterns } from 'types-univer';
-import { ResponseStatuses } from './../../shared/constants/response-statuses';
 import { AuthorizationDto, SignUpUserDto } from './models/auth.dto';
 import {
   ISuccessSignUp,
   SignInResponse,
   SignUpResponse,
 } from './models/auth.model';
+import { ResponseStatuses } from '../../shared/constants/response-statuses';
 
 @Injectable()
 export class AuthService {
@@ -49,7 +49,7 @@ export class AuthService {
   public async signUp(user: SignUpUserDto): Promise<{ message: string }> {
     try {
       const role: RolesEntity = await this.getRole(user.roleId);
-      let response: ISuccessSignUp = (await lastValueFrom<SignUpResponse>(
+      const response: ISuccessSignUp = (await lastValueFrom<SignUpResponse>(
         this.clientUniversity.send(MessagePatterns.Auth.signUp, user),
       )) as ISuccessSignUp;
 
