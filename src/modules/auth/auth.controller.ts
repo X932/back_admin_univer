@@ -1,4 +1,5 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { CustomExceptionFilter } from '@exception-filters/custom-exception.filter';
+import { Body, Controller, Post, UseFilters } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { AuthRoutes } from './auth.routes';
 import { AuthService } from './auth.service';
@@ -6,6 +7,7 @@ import { AuthorizationDto, SignUpUserDto } from './models/auth.dto';
 import { SignInResponse } from './models/auth.model';
 
 @Controller(AuthRoutes.Main)
+@UseFilters(CustomExceptionFilter)
 export class AuthController {
   constructor(private authService: AuthService) {}
 

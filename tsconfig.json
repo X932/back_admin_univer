@@ -6,6 +6,8 @@
       "@guards/*": ["shared/guards/*"],
       "@configs/*": ["shared/configs/*"],
       "@relations-entities/*": ["shared/relations-entities/*"],
+      "@exception-filters/*": ["shared/exception-filters/*"],
+      "@exceptions/*": ["shared/exceptions/*"],
       "@modules/*": ["modules/*"]
     },
     "module": "commonjs",
